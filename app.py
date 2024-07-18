@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -31,11 +31,25 @@ def create_account():
     if request.method == 'POST':
         account_number = request.form['account_number']
         username = request.form['username']
-        balance = float(request.form['balance'])
+        try:
+            balance = float(request.form['balance'])
+        except ValueError:
+            flash('กรุณากรอกยอดคงเหลือเริ่มต้นให้ถูกต้อง', 'danger')
+            return redirect(url_for('create_account'))
+
+        if balance < 0:
+            flash('ยอดคงเหลือเริ่มต้นไม่สามารติดค่าลบได้', 'danger')
+            return redirect(url_for('create_account'))
+
+        existing_account = Account.query.filter_by(account_number=account_number).first()
+        if existing_account:
+            flash('เลขบัญชีนี้มีอยู่แล้ว กรุณาใช้เลขบัญชีอื่น', 'danger')
+            return redirect(url_for('create_account'))
 
         new_account = Account(account_number, username, balance)
         db.session.add(new_account)
         db.session.commit()
+        flash('สร้างบัญชีใหม่สำเร็จแล้ว', 'success')
         return redirect(url_for('index'))
 
     return render_template('create_account.html')

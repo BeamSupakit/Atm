@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATM</title>
+    <title>🏦 ATM</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #8e8e8e;
+            background: url('static/images/03.jpg');
+            background-size: cover;
         }
         .jumbotron {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        .account-border {
             background-color: #ffffff;
             border-radius: 10px;
             padding: 2rem;
@@ -28,15 +34,17 @@
             <p>สร้างบัญชีใหม่หรือดูบัญชีที่มีอยู่</p>
             <a class="btn btn-primary btn-lg" href="{{ url_for('create_account') }}" role="button">สร้างบัญชี</a>
         </div>
-        <h2>บัญชี</h2>
-        <ul class="list-group">
-            {% for account in accounts %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="{{ url_for('account', account_number=account.account_number) }}">{{ account.username }} ({{ account.account_number }})</a>
-                    <span class="badge badge-primary badge-pill">{{ account.balance }} <i class="fas fa-coins"></i></span>
-                </li>
-            {% endfor %}
-        </ul>
+        <div class="account-border">
+            <h2>บัญชี</h2>
+            <ul class="list-group">
+                {% for account in accounts %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('account', account_number=account.account_number) }}">{{ account.username }} ({{ account.account_number }})</a>
+                        <span class="badge badge-primary badge-pill">{{ account.balance }} <i class="fas fa-coins"></i></span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

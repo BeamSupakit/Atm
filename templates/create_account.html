@@ -8,7 +8,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #797a7c;
+            background-color: #f74c4c;
         }
         .container {
             max-width: 600px;
@@ -23,6 +23,15 @@
 <body>
     <div class="container">
         <h1>สร้างบัญชีใหม่</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}" role="alert">
+                  {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
         <form method="post">
             <div class="form-group">
                 <label for="account_number">เลขบัญชี:</label>
