@@ -21,6 +21,9 @@
         .btn-margin {
             margin-top: 10px;
         }
+        .alert {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -30,11 +33,15 @@
         <p>ชื่อผู้ใช้: {{ account.username }}</p>
         <p>ยอดคงเหลือ: {{ account.balance }}</p>
 
+        <div class="alert alert-danger" id="alert" role="alert">
+            จำนวนเงินต้องไม่เป็นค่าลบ!
+        </div>
+
         <h2>ฝาก/ถอน</h2>
-        <form method="post" class="mb-3">
+        <form method="post" class="mb-3" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="amount">จำนวน:</label>
-                <input type="number" class="form-control" id="amount" name="amount" required>
+                <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
             </div>
             <button type="submit" class="btn btn-success btn-margin" name="action" value="deposit">เงินฝาก</button>
             <button type="submit" class="btn btn-warning btn-margin" name="action" value="withdraw">ถอน</button>
@@ -50,5 +57,16 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function validateForm() {
+            var amount = parseFloat(document.getElementById("amount").value);
+            if (amount < 0) {
+                document.getElementById("alert").style.display = 'block';
+                return false;
+            }
+            document.getElementById("alert").style.display = 'none';
+            return true;
+        }
+    </script>
 </body>
 </html>
